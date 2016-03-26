@@ -1,7 +1,6 @@
 package by.bsuir.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -15,7 +14,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
 @EnableJpaRepositories("by.bsuir.orm.repository")
 @EnableTransactionManagement
 public class PersistenceJPAConfiguration {
@@ -34,23 +32,22 @@ public class PersistenceJPAConfiguration {
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/transport");
-        dataSource.setUsername( "transport" );
-        dataSource.setPassword( "transport_bsuir" );
+        dataSource.setUsername("transport");
+        dataSource.setPassword("transport_bsuir");
         return dataSource;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
 
         return transactionManager;
     }
-
 
 
     Properties additionalProperties() {
