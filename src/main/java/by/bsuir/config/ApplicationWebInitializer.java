@@ -1,11 +1,9 @@
 package by.bsuir.config;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.WebApplicationInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -15,13 +13,17 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 @SpringBootApplication
-public class ApplicationWebInitializer implements WebApplicationInitializer {
+public class ApplicationWebInitializer extends SpringBootServletInitializer {
 
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(ApplicationWebInitializer.class, args);
+    }
 
     public void onStartup(ServletContext container) throws ServletException {
 
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(ServiceConfiguration.class,  SecurityConfig.class, MvcConfiguration.class);
+        rootContext.register(ServiceConfiguration.class, SecurityConfig.class, MvcConfiguration.class);
 
         container.addListener(new ContextLoaderListener(rootContext));
 
@@ -33,7 +35,9 @@ public class ApplicationWebInitializer implements WebApplicationInitializer {
 
     }
 
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(ApplicationWebInitializer.class, args);
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(ApplicationWebInitializer.class);
+
     }
 }

@@ -1,0 +1,7 @@
+server:
+        tomcat:
+          accesslog:
+                enabled: true
+                pattern: "(%h) %a:%p  %t  %m %U with status : %s, user %u"
+          basedir: target/tomcat
+
